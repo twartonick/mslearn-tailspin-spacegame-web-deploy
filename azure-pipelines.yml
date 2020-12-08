@@ -147,6 +147,6 @@ stages:
               displayName: 'Azure App service Deploy'
               inputs:
                 azureSubscription: 'training service connection spacegame'
-                appName: '$(WebAppNameStaging'
+                appName: '$(WebAppNameStaging)'
                 package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 

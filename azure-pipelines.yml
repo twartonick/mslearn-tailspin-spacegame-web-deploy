@@ -126,3 +126,27 @@ stages:
               azureSubscription: 'training service connection spacegame'
               appName: '$(WebAppNameTest)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
+- stage: 'Staging'
+  displayName: 'Deploy to staging environment'
+  dependsOn: Test
+  jobs:
+    - deployment: Deploy
+      pool:
+        vmImage: 'windows-latest'
+      environment: staging
+      variables:
+      - group: 'Release'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: current
+              artifact: drop
+            - task: AzureWebApp@1
+              displayName: 'Azure App service Deploy'
+              inputs:
+                azureSubscription: 'training service connection spacegame'
+                appName: '$(WebAppNameStaging'
+                package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
